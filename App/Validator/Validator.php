@@ -19,6 +19,11 @@ class Validator
         ,2 => "/put/{id}"
         ,3 => "/delete/{id}"
         ,4 => "/post/{name}"
+        ,5 => "/put/{name}"
+        ,6 => "/delete/{name}"
+        ,7 => "/delete/{id}"
+        ,8 => "/get/{name}/{id}"
+        ,9 => "/get/{id}/{id}"
     );
     public function __construct($url)
     {
@@ -29,20 +34,22 @@ class Validator
     }
 
     public function validateUrl(){
-
+        $match = "";
         foreach ($this->array_uris as $key => $val_uri) {
+            //echo $key . "<br>";
+            //echo $val_uri . "<br>";
             $expresion = $this->generateExpresion($val_uri);
             $pass = preg_match($expresion, $this->url);
             if($pass){
 
-                echo "uri: $val_uri <br>";
-                echo "id: $key <br>";
-                return $val_uri;
+               $match = "match!! <br>id: " .$key . " <br> uri: " . $val_uri;
+               break;
             }else{
-                return "";
+                //return "";
 
             }
         }
+        return $match;
     }
 
     private function generateExpresion($url){

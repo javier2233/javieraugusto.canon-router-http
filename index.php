@@ -13,7 +13,10 @@ require_once __DIR__.'/App/Validator/Validator.php';
 $uri = $_SERVER[REQUEST_URI];
 echo "uri  to validate : ". $uri . "<br>";
 $validator = new Validator($uri);
-if(!$validator){
-    echo $validator->validateUrl();
+$exits = $validator->validateUrl();
+if($exits){
+    echo $exits;
+}else{
+
+    echo "no matchig";
 }
-echo "no matchig";
