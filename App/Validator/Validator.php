@@ -13,7 +13,8 @@ use Doctrine\Instantiator\Exception\UnexpectedValueException;
 class Validator
 {
     private $url;
-    private $array_uris =  array(
+    private $listUrls;
+    /*private $arrayUrls =  array(
         0 => "/get/{id}"
         ,1 => "/post/{id}/{name}"
         ,2 => "/put/{id}"
@@ -24,29 +25,27 @@ class Validator
         ,7 => "/delete/{id}"
         ,8 => "/get/{name}/{id}"
         ,9 => "/get/{id}/{id}"
-    );
-    public function __construct($url)
+    );*/
+    public function __construct($url, Array $arrayUrls)
     {
         if(empty($url)){
             throw new UnexpectedValueException("$url is not empty");
         }
         $this->url = $url;
+        $this->listUrls = $arrayUrls;
     }
 
     public function validateUrl(){
         $match = "";
-        foreach ($this->array_uris as $key => $val_uri) {
+        foreach ($this->listUrls as $key => $urlValue) {
             //echo $key . "<br>";
             //echo $val_uri . "<br>";
-            $expresion = $this->generateExpresion($val_uri);
+            $expresion = $this->generateExpresion($urlValue);
             $pass = preg_match($expresion, $this->url);
             if($pass){
 
-               $match = "match!! <br>id: " .$key . " <br> uri: " . $val_uri;
+               $match = "match!! <br>id: " .$key . " <br> uri: " . $urlValue;
                break;
-            }else{
-                //return "";
-
             }
         }
         return $match;
